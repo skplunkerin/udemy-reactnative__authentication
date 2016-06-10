@@ -6,6 +6,7 @@ import {
   Text
 } from 'react-native'
 import Styles from '../src/styles'
+import SignIn from '../components/authentication/sign-in'
 
 const styles = Styles()
 
@@ -14,7 +15,7 @@ class Main extends Component {
     console.log('I AM HERE')
     console.log('styles.container:', styles.container)
     return <View style={styles.container}>
-      <Text>I am on both iOS and Android!</Text>
+      <SignIn />
     </View>
   }
 }
