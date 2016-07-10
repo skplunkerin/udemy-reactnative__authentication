@@ -7,28 +7,31 @@ import {
   StyleSheet,
   TextInput
 } from 'react-native'
-import InitialState from '../../config/initial-state'
 import Button from '../common/button'
+import InitialState from '../../config/initial-state'
+import Firebase from 'firebase'
 
 export default class SignIn extends Component {
   constructor(){
     super()
     this.state = InitialState().signIn
+    // Initialize Firebase
+    Firebase.initializeApp(InitialState().firebase)
     this._onButtonPress = this._onButtonPress.bind(this)
   }
 
   render() {
     return <View style={styles.container}>
-      <Text>Sign In</Text>
+      <Text>{this.state.screen}</Text>
 
-      <Text style={styles.label}>Username:</Text>
+      <Text style={styles.label}>{this.state.usernameLabel}</Text>
       <TextInput
         style={styles.input}
         onChangeText={(text) => this.setState({usernameInput: text})}
         value={this.state.usernameInput}
         />
 
-      <Text style={styles.label}>Password:</Text>
+      <Text style={styles.label}>{this.state.passwordLabel}</Text>
       <TextInput
         secureTextEntry={true}
         style={styles.input}
@@ -41,7 +44,10 @@ export default class SignIn extends Component {
   }
 
   _onButtonPress(){
-    // TODO
+    // Sign user in
+    console.log('EMAIL: ', this.state.usernameInput)
+    console.log('PASSWORD: ', this.state.passwordInput)
+    Firebase.auth().signInWithEmailAndPassword(this.state.usernameInput, this.state.passwordInput)
   }
 }
 
