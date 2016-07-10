@@ -7,16 +7,41 @@ import {
   StyleSheet,
   TextInput
 } from 'react-native'
+import InitialState from '../../config/initial-state'
+import Button from '../common/button'
 
 export default class SignIn extends Component {
+  constructor(){
+    super()
+    this.state = InitialState().signIn
+    this._onButtonPress = this._onButtonPress.bind(this)
+  }
+
   render() {
     return <View style={styles.container}>
       <Text>Sign In</Text>
+
       <Text style={styles.label}>Username:</Text>
-      <TextInput style={styles.input} />
+      <TextInput
+        style={styles.input}
+        onChangeText={(text) => this.setState({usernameInput: text})}
+        value={this.state.usernameInput}
+        />
+
       <Text style={styles.label}>Password:</Text>
-      <TextInput secureTextEntry={true} style={styles.input} />
+      <TextInput
+        secureTextEntry={true}
+        style={styles.input}
+        onChangeText={(text) => this.setState({passwordInput: text})}
+        value={this.state.passwordInput}
+        />
+
+      <Button text={this.state.buttonText} onPress={this._onButtonPress} />
     </View>
+  }
+
+  _onButtonPress(){
+    // TODO
   }
 }
 
