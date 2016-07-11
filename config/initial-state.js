@@ -7,12 +7,19 @@ export default function() {
       databaseURL: "https://udemy-react-native-auth.firebaseio.com",
       storageBucket: "",
     },
+    user: {
+      displayName: '',
+      email: '',
+      uid: ''
+    },
     signIn: {
       screen: 'Sign In:',
       usernameLabel: 'Email:',
       usernameInput: '',
       passwordLabel: 'Password:',
       passwordInput: '',
+      errorShow: false,
+      errorText: 'Your email or password was incorrect',
       buttonText: "Sign In"
     }
   }
