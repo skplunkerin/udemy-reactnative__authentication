@@ -5,9 +5,7 @@ import {
 export default function() {
   return StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
+      flex: 1
     }
   })
 }

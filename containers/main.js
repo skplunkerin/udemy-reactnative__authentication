@@ -10,7 +10,7 @@ import SignIn from '../components/authentication/sign-in'
 
 const styles = Styles()
 
-class Main extends Component {
+export default class Main extends Component {
   constructor(){
     super()
     this.state = InitialState().user
@@ -18,16 +18,13 @@ class Main extends Component {
     this._setupUser = this._setupUser.bind(this)
   }
   renderScene(route, navigator){
-    console.log('route:', route)
-    console.log('navigator:', navigator)
-    console.log('(route.name == "signin")', (route.name == 'signin'))
     switch( route.name ){
       case 'signin':
         console.log('load signin...')
         return <SignIn onSignIn={this._setupUser} />
         break
       default:
-        console.log('load default...')
+        console.log('load default...(<SignIn />)')
         return <SignIn onSignIn={this._setupUser} />
     }
   }
@@ -37,9 +34,9 @@ class Main extends Component {
     return (
       <Navigator
         style={styles.container}
-        initialRoute={ {name: 'signin'} }
+        initialRoute={ {name: 'signin', index: 0} }
         renderScene={this.renderScene}
-        configureScene={() => { return Navigator.SceneConfigs.FloatFromRight }}
+        configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromRight }
         />
     )
   }
@@ -53,5 +50,3 @@ class Main extends Component {
     console.log('this.state:', this.state)
   }
 }
-
-export default Main

@@ -29,26 +29,28 @@ export default class SignIn extends Component {
   }
 
   render() {
-    return <View style={styles.container}>
-      <Text>{this.state.screen}</Text>
+    return (
+      <View style={styles.container}>
+        <Text>{this.state.screen}</Text>
 
-      <Text style={styles.label}>{this.state.usernameLabel}</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={(text) => this.setState({usernameInput: text})}
-        value={this.state.usernameInput}
-        />
+        <Text style={styles.label}>{this.state.usernameLabel}</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => this.setState({usernameInput: text})}
+          value={this.state.usernameInput}
+          />
 
-      <Text style={styles.label}>{this.state.passwordLabel}</Text>
-      <TextInput
-        secureTextEntry={true}
-        style={styles.input}
-        onChangeText={(text) => this.setState({passwordInput: text})}
-        value={this.state.passwordInput}
-        />
-      {this.renderError()}
-      <Button text={this.state.buttonText} onPress={this._onButtonPress} />
-    </View>
+        <Text style={styles.label}>{this.state.passwordLabel}</Text>
+        <TextInput
+          secureTextEntry={true}
+          style={styles.input}
+          onChangeText={(text) => this.setState({passwordInput: text})}
+          value={this.state.passwordInput}
+          />
+        {this.renderError()}
+        <Button text={this.state.buttonText} onPress={this._onButtonPress} />
+      </View>
+    )
   }
 
   _onButtonPress(){
