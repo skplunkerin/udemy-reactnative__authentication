@@ -72,6 +72,9 @@ export default class SignIn extends Component {
       console.log('user:', u)
       if (u !== undefined){
         // Successful login!
+        this.setState({
+          errorShow: false
+        })
         this.props.onSignIn(u)
       }
     }.bind(this))
