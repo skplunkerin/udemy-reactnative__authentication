@@ -7,18 +7,20 @@ import {
   StyleSheet,
   TextInput
 } from 'react-native'
-import Button from '../common/button'
-import InitialState from '../../config/initial-state'
-import Firebase from 'firebase'
+import Button from '../../components/common/button'
+// import InitialState from '../../config/initial-state'
+// import Firebase from 'firebase'
 
 export default class SignIn extends Component {
-  constructor(){
-    super()
-    this.state = InitialState().signIn
-    // Initialize Firebase
-    Firebase.initializeApp(InitialState().firebase)
+  constructor(props){
+    super(props)
+    // this.state = InitialState().signIn
+    this.state = this.props.state
+    // // Initialize Firebase
+    // Firebase.initializeApp(InitialState().firebase)
     this.renderError = this.renderError.bind(this)
     this._onButtonPress = this._onButtonPress.bind(this)
+    this._onSignupPress = this._onSignupPress.bind(this)
   }
   renderError(){
     if (this.state.errorShow){
@@ -49,6 +51,7 @@ export default class SignIn extends Component {
           />
         {this.renderError()}
         <Button text={this.state.buttonText} onPress={this._onButtonPress} />
+        <Button text={'Create an account...'} onPress={this._onSignupPress} />
       </View>
     )
   }
@@ -57,7 +60,7 @@ export default class SignIn extends Component {
     // Sign user in
     console.log('EMAIL: ', this.state.usernameInput)
     console.log('PASSWORD: ', this.state.passwordInput)
-    Firebase.auth().signInWithEmailAndPassword(this.state.usernameInput, this.state.passwordInput).catch(function(error){
+    this.props.Firebase.auth().signInWithEmailAndPassword(this.state.usernameInput, this.state.passwordInput).catch(function(error){
       const code = error.code,
             msg = error.message
       if (code === 'auth/wrong-password'){
@@ -80,6 +83,10 @@ export default class SignIn extends Component {
         this.props.onSignIn(u)
       }
     }.bind(this))
+  }
+  _onSignupPress(){
+    // Navigate to SignUp view
+    // ideal => navigator.push('signup')
   }
 }
 

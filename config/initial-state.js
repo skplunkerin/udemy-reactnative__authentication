@@ -12,6 +12,18 @@ export default function() {
       email: '',
       uid: ''
     },
+    signUp: {
+      screen: 'Sign Up:',
+      usernameLabel: 'Email:',
+      usernameInput: '',
+      passwordLabel: 'Password:',
+      passwordInput: '',
+      passwordConfLabel: 'Password Confirmation:',
+      passwordConfInput: '',
+      errorShow: false,
+      errorText: '',
+      buttonText: 'Sign Up!'
+    },
     signIn: {
       screen: 'Sign In:',
       usernameLabel: 'Email:',
