@@ -22,6 +22,7 @@ export default class SignIn extends Component {
     this.renderError = this.renderError.bind(this)
     this._onSigninSubmit = this._onSigninSubmit.bind(this)
     this._onSignupPress = this._onSignupPress.bind(this)
+    this._onSignupReturn = this._onSignupReturn.bind(this)
   }
   renderError(){
     if (this.state.errorShow){
@@ -56,7 +57,6 @@ export default class SignIn extends Component {
       </View>
     )
   }
-
   _onSigninSubmit(){
     // Sign user in
     console.log('EMAIL: ', this.state.usernameInput)
@@ -87,8 +87,10 @@ export default class SignIn extends Component {
   }
   _onSignupPress(){
     // Navigate to SignUp view
-    // ideal => navigator.push('signup')
-    this.props.navigator.push({ name: 'signup' })
+    this.props.navigator.push({ name: 'signup', email: this.state.usernameInput, onReturn: this._onSignupReturn })
+  }
+  _onSignupReturn(email){
+    this.setState({usernameInput: email})
   }
 }
 

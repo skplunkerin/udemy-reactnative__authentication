@@ -17,6 +17,11 @@ export default class SignUp extends Component {
     this._onSignupSubmit = this._onSignupSubmit.bind(this)
     this._onSignPress = this._onSignPress.bind(this)
   }
+  componentWillMount(){
+    // If user typed email on login, then came to signup...
+    // use that email to speed things up.
+    this.setState({usernameInput: this.props.route.email})
+  }
   renderError() {
     if (this.state.errorShow) {
       return (
@@ -63,6 +68,8 @@ export default class SignUp extends Component {
     //       3. Show error that passwords don't match
   }
   _onSignPress(){
+    // Before popping, send email (if any typed)
+    this.props.route.onReturn(this.state.usernameInput)
     this.props.navigator.pop()
   }
 }
