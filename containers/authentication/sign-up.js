@@ -66,6 +66,41 @@ export default class SignUp extends Component {
     // TODO: 1. Check if password && passwordConf match
     //       2. Sign User Up if passed, show errors if any
     //       3. Show error that passwords don't match
+    console.log('EMAIL: ', this.state.usernameInput)
+    console.log('PASSWORD: ', this.state.passwordInput)
+    console.log('PASSWORDCONF: ', this.state.passwordConfInput)
+    if (this.state.passwordInput !== this.state.passwordConfInput) {
+      return this.setState({
+        passwordInput: '',
+        passwordConfInput: '',
+        errorText: "Passwords didn't match!",
+        errorShow: true
+      })
+    }
+    this.props.Firebase.auth().createUserWithEmailAndPassword(this.state.usernameInput, this.state.passwordInput).catch(function(error){
+      const code = error.code,
+            msg = error.message
+      if (code === 'auth/weak-password'){
+        this.setState({errorText: 'Password is too weak...'})
+      } else {
+        this.setState({errorText: msg})
+      }
+      this.setState({
+        passwordInput: '',
+        passwordConfInput: '',
+        errorShow: true
+      })
+    }.bind(this)) // bind(this) so this.setState can be called
+    .then(function(u){
+      console.log('user:', u)
+      if (u !== undefined){
+        // Successfully created user!
+        this.setState({
+          errorShow: false
+        })
+        // TODO, pass u back to where it'll be used
+      }
+    }.bind(this))
   }
   _onSignPress(){
     // Before popping, send email (if any typed)
