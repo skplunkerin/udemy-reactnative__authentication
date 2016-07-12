@@ -14,12 +14,13 @@ import Button from '../../components/common/button'
 export default class SignIn extends Component {
   constructor(props){
     super(props)
+    console.log('SignIn props:', this.props)
     // this.state = InitialState().signIn
     this.state = this.props.state
     // // Initialize Firebase
     // Firebase.initializeApp(InitialState().firebase)
     this.renderError = this.renderError.bind(this)
-    this._onButtonPress = this._onButtonPress.bind(this)
+    this._onSigninSubmit = this._onSigninSubmit.bind(this)
     this._onSignupPress = this._onSignupPress.bind(this)
   }
   renderError(){
@@ -50,13 +51,13 @@ export default class SignIn extends Component {
           value={this.state.passwordInput}
           />
         {this.renderError()}
-        <Button text={this.state.buttonText} onPress={this._onButtonPress} />
+        <Button text={this.state.buttonText} onPress={this._onSigninSubmit} />
         <Button text={'Create an account...'} onPress={this._onSignupPress} />
       </View>
     )
   }
 
-  _onButtonPress(){
+  _onSigninSubmit(){
     // Sign user in
     console.log('EMAIL: ', this.state.usernameInput)
     console.log('PASSWORD: ', this.state.passwordInput)
@@ -87,6 +88,7 @@ export default class SignIn extends Component {
   _onSignupPress(){
     // Navigate to SignUp view
     // ideal => navigator.push('signup')
+    this.props.navigator.push({ name: 'signup' })
   }
 }
 

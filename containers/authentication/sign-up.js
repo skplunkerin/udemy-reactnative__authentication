@@ -14,7 +14,8 @@ export default class SignUp extends Component {
     super(props)
     this.state = this.props.state
     this.renderError = this.renderError.bind(this)
-    this._onButtonPress = this._onButtonPress.bind(this)
+    this._onSignupSubmit = this._onSignupSubmit.bind(this)
+    this._onSignPress = this._onSignPress.bind(this)
   }
   renderError() {
     if (this.state.errorShow) {
@@ -51,14 +52,18 @@ export default class SignUp extends Component {
           value={this.state.passwordConfInput}
           />
           {this.renderError()}
-          <Button text={this.state.buttonText} onPress={this._onButtonPress} />
+          <Button text={this.state.buttonText} onPress={this._onSignupSubmit} />
+          <Button text={'Wait, I have an account...'} onPress={this._onSignPress} />
       </View>
     )
   }
-  _onButtonPress(){
+  _onSignupSubmit(){
     // TODO: 1. Check if password && passwordConf match
     //       2. Sign User Up if passed, show errors if any
     //       3. Show error that passwords don't match
+  }
+  _onSignPress(){
+    this.props.navigator.pop()
   }
 }
 

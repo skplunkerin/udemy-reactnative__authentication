@@ -27,15 +27,23 @@ export default class Main extends Component {
     switch( route.name ){
       case 'signup':
         console.log('load signup...')
-        return <SignUp onSignUp={this._createUser} Firebase={Firebase} state={this.state.signUp} />
+        return <SignUp { ...{onSignUp: this._createUser, state: this.state.signUp, Firebase, route, navigator} } />
         break
       case 'signin':
         console.log('load signin...')
-        return <SignIn onSignIn={this._setupUser} Firebase={Firebase} state={this.state.signIn} />
+        return <SignIn { ...{onSignIn: this._setupUser, state: this.state.signIn, Firebase, route, navigator} } />
         break
       default:
         console.log('load default...(<SignIn />)')
-        return <SignIn onSignIn={this._setupUser} Firebase={Firebase} state={this.state.signIn} />
+        return (
+          <SignIn
+            onSignIn={this._setupUser}
+            Firebase={Firebase}
+            state={this.state.signIn}
+            route={route}
+            navigator={navigator}
+            />
+        )
     }
   }
   render() {
@@ -44,7 +52,7 @@ export default class Main extends Component {
     return (
       <Navigator
         style={styles.container}
-        initialRoute={ {name: 'signin', index: 0} }
+        initialRoute={ {name: 'signin'} }
         renderScene={this.renderScene}
         configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromRight }
         />
@@ -55,11 +63,11 @@ export default class Main extends Component {
   }
   _setupUser(u){
     console.log('yeah, sign in success! User:', u)
-    this.setState({
-      displayName: u.displayName,
-      email: u.email,
-      uid: u.uid
-    })
+    user = this.state.user
+    user.displayName = u.displayName
+    user.email = u.email
+    user.uid = u.uid
+    this.setState({user: user})
     console.log('this.state:', this.state)
   }
 }
