@@ -6,8 +6,9 @@ import {
 } from 'react-native'
 import InitialState from '../config/initial-state'
 import Styles from '../src/styles'
-import SignUp from '../containers/authentication/sign-up'
-import SignIn from '../containers/authentication/sign-in'
+import SignUp from './authentication/sign-up'
+import SignIn from './authentication/sign-in'
+import UserProfile from './settings/user-profile'
 import Firebase from 'firebase'
 
 const styles = Styles()
@@ -21,23 +22,29 @@ export default class Main extends Component {
     Firebase.initializeApp(InitialState().firebase)
     this.renderScene = this.renderScene.bind(this)
     this._createUser = this._createUser.bind(this)
-    this._setupUser = this._setupUser.bind(this)
+    this._loginUser = this._loginUser.bind(this)
+    this._logoutUser = this._logoutUser.bind(this)
+    this._setUserState = this._setUserState.bind(this)
   }
   renderScene(route, navigator){
     switch( route.name ){
+      case 'userprofile':
+        console.log('load userprofile...')
+        return <UserProfile { ...{onLogOut: this._logoutUser, state: this.state.user, Firebase, route, navigator} } />
+        break
       case 'signup':
         console.log('load signup...')
         return <SignUp { ...{onSignUp: this._createUser, state: this.state.signUp, Firebase, route, navigator} } />
         break
       case 'signin':
         console.log('load signin...')
-        return <SignIn { ...{onSignIn: this._setupUser, state: this.state.signIn, Firebase, route, navigator} } />
+        return <SignIn { ...{onSignIn: this._loginUser, state: this.state.signIn, Firebase, route, navigator} } />
         break
       default:
         console.log('load default...(<SignIn />)')
         return (
           <SignIn
-            onSignIn={this._setupUser}
+            onSignIn={this._loginUser}
             Firebase={Firebase}
             state={this.state.signIn}
             route={route}
@@ -59,10 +66,23 @@ export default class Main extends Component {
     )
   }
   _createUser(u){
-    // TODO
+    console.log('Oh yeah! Signed up successfully! User:', u)
+    this._setUserState(u)
   }
-  _setupUser(u){
-    console.log('yeah, sign in success! User:', u)
+  _loginUser(u){
+    console.log('Yeah yeah yeah, sign in success... User:', u)
+    this._setUserState(u)
+  }
+  _logoutUser(){
+    console.log('loggin user out...')
+    this._setUserState({
+      displayName: '',
+      email: '',
+      uid: ''
+    })
+  }
+  _setUserState(u){
+    // Set user in state
     user = this.state.user
     user.displayName = u.displayName
     user.email = u.email

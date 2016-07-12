@@ -20,6 +20,7 @@ export default class SignIn extends Component {
     // // Initialize Firebase
     // Firebase.initializeApp(InitialState().firebase)
     this.renderError = this.renderError.bind(this)
+    this.renderLoggedOut = this.renderLoggedOut.bind(this)
     this._onSigninSubmit = this._onSigninSubmit.bind(this)
     this._onSignupPress = this._onSignupPress.bind(this)
     this._onSignupReturn = this._onSignupReturn.bind(this)
@@ -31,11 +32,18 @@ export default class SignIn extends Component {
       )
     }
   }
-
+  renderLoggedOut(){
+    if (this.props.route.loggedOut){
+      return (
+        <Text style={styles.success}>{this.props.route.loggedOut}</Text>
+      )
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
         <Text>{this.state.screen}</Text>
+        {this.renderLoggedOut()}
 
         <Text style={styles.label}>{this.state.usernameLabel}</Text>
         <TextInput
@@ -82,6 +90,7 @@ export default class SignIn extends Component {
           errorShow: false
         })
         this.props.onSignIn(u)
+        this.props.navigator.immediatelyResetRouteStack([{name: 'userprofile'}])
       }
     }.bind(this))
   }
@@ -112,6 +121,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: 'gray',
     alignSelf: 'center'
+  },
+  success: {
+    alignSelf: 'center',
+    color: 'blue'
   },
   error: {
     alignSelf: 'center',

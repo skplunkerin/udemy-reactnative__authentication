@@ -98,7 +98,8 @@ export default class SignUp extends Component {
         this.setState({
           errorShow: false
         })
-        // TODO, pass u back to where it'll be used
+        this.props.onSignUp(u)
+        this.props.navigator.immediatelyResetRouteStack([{name: 'userprofile'}])
       }
     }.bind(this))
   }
